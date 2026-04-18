@@ -1,7 +1,7 @@
 zerops:
   - setup: app
     build:
-      base: static
+      base: alpine@latest
       deployFiles:
         - target/dx/rust-web-tcg/release/web/public/
     run:
