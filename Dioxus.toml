@@ -2,5 +2,9 @@
 name = "rust-web-tcg"
 default_platform = "web"
 
+[server]
+ip = "0.0.0.0"
+port = 8080
+
 [web.app]
 title = "Rust Web TCG — The Collectible Stack"
