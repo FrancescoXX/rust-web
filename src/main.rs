@@ -9,7 +9,8 @@ use components::*;
 static CSS: Asset = asset!("/assets/main.css");
 
 fn main() {
-    dioxus::launch(App);
+// Questo caricherà automaticamente le impostazioni dal tuo Dioxus.toml (porta 8081)
+    launch(App);
 }
 
 #[component]

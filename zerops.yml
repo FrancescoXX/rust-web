@@ -2,9 +2,12 @@ zerops:
   - setup: app
     build:
       base: rust@stable
+      prepareCommands:
+        - rustup target add wasm32-unknown-unknown
+        - cargo install dioxus-cli
       buildCommands:
-        - cargo build --release
+        - dx build --release --platform web
       deployFiles:
-        - target/release/rust-web-tcg
+        - target/dx/rust-web-tcg/release/web/public/
     run:
-      start: ./rust-web-tcg
+      base: static
