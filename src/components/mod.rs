@@ -5,7 +5,6 @@ mod card_view;
 mod zoom;
 
 pub use nav::Nav;
-pub use hero::{FerrisIcon, HeroFerris, HeroHeader};
-pub use card_art::{CardArtSvg, ImageArt};
-pub use card_view::{CostPip, CardView};
+pub use hero::HeroFerris;
+pub use card_view::CardView;
 pub use zoom::ZoomWrap;

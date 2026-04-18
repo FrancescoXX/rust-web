@@ -9,12 +9,7 @@ use components::*;
 static CSS: Asset = asset!("/assets/main.css");
 
 fn main() {
-    dioxus::LaunchBuilder::new()
-        .with_cfg(
-            dioxus::fullstack::Config::new()
-                .addr(std::net::SocketAddr::from(([0, 0, 0, 0], 8080)))
-        )
-        .launch(App);
+    dioxus::launch(App);
 }
 
 #[component]

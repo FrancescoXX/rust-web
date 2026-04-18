@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use crate::data::{Card, CostKind, Rarity};
+use crate::data::{Card, CostKind};
 use super::card_art::{CardArtSvg, ImageArt};
 
 // ── Cost Pip ────────────────────────────────────────────────────────────────

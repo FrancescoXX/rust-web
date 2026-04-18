@@ -4,12 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-dioxus = "0.7"
+dioxus = { version = "0.7", features = ["fullstack"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 gloo-timers = { version = "0.3", features = ["futures"] }
+tokio-tungstenite = "0.26.1"
 
 [features]
-default = ["web"]
-web = ["dioxus/web"]
-desktop = ["dioxus/desktop"]
+default = ["fullstack"]
+fullstack = ["dioxus/fullstack"]
