@@ -1,0 +1,6 @@
+[application]
+name = "rust-web-tcg"
+default_platform = "web"
+
+[web.app]
+title = "Rust Web TCG — The Collectible Stack"
