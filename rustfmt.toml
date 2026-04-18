@@ -1,0 +1,5 @@
+# Keep default rustfmt style unless a strong reason to change.
+# This file exists so contributors run with a shared baseline.
+max_width = 100
+hard_tabs = false
+edition = "2021"

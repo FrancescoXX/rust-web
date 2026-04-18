@@ -1,0 +1,15 @@
+/target
+
+# Cargo lock for binaries should usually be committed; keep it tracked.
+# Ignore backup/source-map style artifacts and local env files.
+*.rs.bk
+*.tmp
+
+# OS / editor artifacts
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs
+*.log
