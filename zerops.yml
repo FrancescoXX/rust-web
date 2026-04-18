@@ -5,6 +5,6 @@ zerops:
       buildCommands:
         - cargo build --release
       deployFiles:
-        - target/release/rust-web
+        - target/release/rust-web-tcg
     run:
-      start: ./rust-web
+      start: ./rust-web-tcg
