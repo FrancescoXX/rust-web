@@ -15,10 +15,11 @@ pub fn ZoomWrap(card: Card, on_close: EventHandler<()>) -> Element {
 
             // Scaled card — links to GitHub repo
             a {
+                class: "zoom-card-link",
                 href: card.github_repo.as_ref().map(|r| format!("https://github.com/{r}")).unwrap_or_default(),
                 target: "_blank",
                 rel: "noreferrer",
-                style: "transform:scale(1.4); transform-origin:center; margin:40px 80px 40px 0; display:block; text-decoration:none; color:inherit;",
+                style: "display:block; text-decoration:none; color:inherit;",
                 CardView { card: card.clone(), on_click: |_: Card| {} }
             }
 

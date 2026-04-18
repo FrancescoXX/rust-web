@@ -30,8 +30,8 @@ pub fn CardView(card: Card, on_click: EventHandler<Card>) -> Element {
     let lane = card.lane;
     let rar = card.rarity;
     let hex = lane.hex();
-    let ink = lane.ink();
-    let bg = lane.bg();
+    let _ink = lane.ink();
+    let _bg = lane.bg();
     let gem = rar.gem_color();
     let glow = rar.glow();
     let holo = rar.is_holo();
@@ -50,7 +50,13 @@ pub fn CardView(card: Card, on_click: EventHandler<Card>) -> Element {
 
     let holo_px = tilt_px() * 100.0;
     let holo_py = tilt_py() * 100.0;
+    let foil_a = tilt_px() * 60.0;
+    let foil_b = foil_a + 10.0;
+    let foil_c = foil_a + 18.0;
+    let foil_d = foil_a + 30.0;
     let no_str = format!("{:03}", card.no);
+    // In MTG, only Creatures have power/toughness. Frameworks are our creatures.
+    let has_pt = card.card_type.starts_with("Framework");
 
     rsx! {
         div {
@@ -76,77 +82,86 @@ pub fn CardView(card: Card, on_click: EventHandler<Card>) -> Element {
 
             div {
                 class: "tcg-card-body",
-                style: "transform:rotateX({tx}deg) rotateY({ty}deg) translateZ(0); transition:{transition}; background:{bg}; box-shadow:0 1px 0 rgba(255,180,100,.1) inset, 0 -2px 0 rgba(0,0,0,.5) inset, 0 14px 32px -12px rgba(0,0,0,.85), {glow};",
+                style: "transform:rotateX({tx}deg) rotateY({ty}deg) translateZ(0); transition:{transition}; background:linear-gradient(160deg, {hex} 0%, {hex}cc 25%, #1a0f06 50%, {hex}cc 75%, {hex} 100%); box-shadow:0 18px 40px -14px rgba(0,0,0,.9), 0 0 0 1px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.35), 0 0 24px -6px {hex}88, {glow};",
+
+                // Metallic sheen overlay (gives lane color a foil-like depth)
+                div {
+                    style: "position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:linear-gradient(135deg, rgba(255,255,255,.28) 0%, transparent 25%, transparent 70%, rgba(0,0,0,.35) 100%); mix-blend-mode:overlay;",
+                }
 
                 div {
                     class: "tcg-card-inner",
-                    style: "border-color:{ink}22;",
+                    style: "background:linear-gradient(180deg, #1a1208, #0a0604);",
 
-                    // Title bar
+                    // Title bar - tinted with lane color
                     div {
-                        style: "display:flex; align-items:center; justify-content:space-between; padding:6px 8px; background:linear-gradient(180deg, {hex}55, {hex}15); border-bottom:1px solid {hex}55;",
+                        class: "tcg-bar",
+                        style: "display:flex; align-items:center; justify-content:space-between; padding:5px 9px; background:linear-gradient(180deg, {hex} 0%, {hex}dd 50%, {hex}aa 100%); border-bottom:1px solid rgba(0,0,0,.5); box-shadow:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -1px 0 rgba(0,0,0,.3), 0 1px 0 rgba(0,0,0,.4);",
                         div {
-                            style: "font-family:'VT323','JetBrains Mono',monospace; font-weight:400; font-size:22px; letter-spacing:0.02em; color:{ink}; text-shadow:0 0 8px {hex}66, 0 1px 0 rgba(0,0,0,.6); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1;",
+                            style: "font-family:'VT323','JetBrains Mono',monospace; font-weight:400; font-size:21px; letter-spacing:0.02em; color:#0a0604; text-shadow:0 1px 0 rgba(255,255,255,.35); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1;",
                             "{card_inner.name}"
                         }
-                        div { style: "display:flex; gap:3px;",
+                        div { style: "display:flex; gap:3px; flex-shrink:0; margin-left:6px;",
                             for cost in card_inner.cost.iter() {
                                 CostPip { kind: *cost, size: 18.0 }
                             }
                         }
                     }
 
-                    // Art
+                    // Art window with thin gold border
                     div {
-                        style: "height:150px; position:relative; border-bottom:1px solid {ink}22; overflow:hidden; background:#0b0906;",
+                        class: "tcg-art-window",
+                        style: "height:148px; position:relative; overflow:hidden; background:#0b0906; margin:6px 8px 0; box-shadow:inset 0 0 0 1px #6a4a20, 0 0 0 1px rgba(0,0,0,.6), 0 2px 4px rgba(0,0,0,.5);",
                         if card_inner.image_url.is_some() {
                             ImageArt {
                                 src: card_inner.image_url.clone().unwrap(),
                                 fallback: card_inner.github_repo.clone(),
                                 lane: lane,
                                 is_repo_card: card_inner.is_logo_card,
+                                card_bg: card_inner.card_bg.clone(),
                             }
                         } else {
                             CardArtSvg { seed: card_inner.name.clone(), lane: lane }
                         }
                         if holo {
                             div {
-                                style: "position:absolute; inset:0; background:radial-gradient(240px 120px at {holo_px}% {holo_py}%, rgba(255,255,255,.18), transparent 60%); mix-blend-mode:screen; pointer-events:none;",
+                                style: "position:absolute; inset:0; background:radial-gradient(280px 140px at {holo_px}% {holo_py}%, rgba(255,255,255,.22), transparent 55%); mix-blend-mode:screen; pointer-events:none;",
                             }
                         }
                     }
 
-                    // Type line
+                    // Type line - tinted with lane color
                     div {
-                        style: "display:flex; align-items:center; justify-content:space-between; padding:5px 8px; background:linear-gradient(180deg, {hex}33, {hex}0d); border-bottom:1px solid {hex}44; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:{ink}; text-transform:uppercase; font-weight:600;",
-                        span { "{card_inner.card_type}" }
+                        class: "tcg-bar",
+                        style: "display:flex; align-items:center; justify-content:space-between; padding:4px 9px; margin:6px 8px 0; background:linear-gradient(180deg, {hex}dd 0%, {hex}99 100%); box-shadow:inset 0 0 0 1px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.35); font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.06em; color:#0a0604; text-transform:uppercase; font-weight:700; text-shadow:0 1px 0 rgba(255,255,255,.25);",
+                        span { style: "white-space:nowrap; overflow:hidden; text-overflow:ellipsis;", "{card_inner.card_type}" }
                         span {
-                            style: "display:inline-block; width:10px; height:10px; border-radius:2px; background:{gem}; box-shadow:inset 0 0 0 1px rgba(0,0,0,.5), inset 0 1px 1px rgba(255,255,255,.4); transform:rotate(45deg);",
+                            style: "display:inline-block; width:11px; height:11px; border-radius:2px; background:radial-gradient(circle at 30% 30%, {gem}, {hex} 70%, #1a0f06); box-shadow:inset 0 0 0 1px rgba(0,0,0,.6), inset 0 1px 1px rgba(255,255,255,.6), 0 0 6px {gem}88; transform:rotate(45deg); flex-shrink:0; margin-left:6px;",
                         }
                     }
 
-                    // Text box
+                    // Parchment text box (white/cream with dark text)
                     div {
-                        style: "flex:1; padding:8px 10px; background:linear-gradient(180deg, #1a0f07, #0f0804); color:#e8c896; font-family:'JetBrains Mono',monospace; font-size:10.5px; line-height:1.45; display:flex; flex-direction:column; gap:6px; overflow:hidden; border-top:1px solid {hex}22;",
+                        class: "tcg-textbox",
+                        style: "flex:1; padding:9px 11px; margin:5px 8px 0; box-shadow:inset 0 0 0 1px #6a4a20; font-family:'JetBrains Mono',monospace; font-size:10.5px; line-height:1.5; display:flex; flex-direction:column; gap:7px; overflow:hidden; position:relative;",
                         for ability in card_inner.abilities.iter() {
-                            div { style: "display:flex; gap:6px;",
+                            div { style: "display:flex; gap:6px; position:relative; z-index:1;",
                                 span {
-                                    style: "font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; font-weight:700; color:{hex}; text-transform:uppercase; flex-shrink:0; padding-top:1px;",
+                                    style: "font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; font-weight:700; color:#5a3a18; text-transform:uppercase; flex-shrink:0; padding-top:1px;",
                                     "{ability.label}"
                                 }
                                 if let Some(ref text) = ability.text {
-                                    span { style: "flex:1;", "{text}" }
+                                    span { style: "flex:1; color:#1a1208;", "{text}" }
                                 }
                             }
                         }
                         if let Some(ref flavor) = card_inner.flavor {
                             div {
-                                style: "margin-top:auto; padding-top:6px; border-top:1px dashed {hex}44; color:#a07448; font-size:10px; line-height:1.4;",
-                                span { style: "color:{hex}; opacity:.7;", ">" }
-                                " {flavor}"
+                                style: "margin-top:auto; padding-top:7px; border-top:1px solid rgba(106,74,32,.35); color:#4a3418; font-size:10px; line-height:1.45; font-style:italic; position:relative; z-index:1;",
+                                "{flavor}"
                                 if let Some(ref by) = card_inner.flavor_by {
                                     div {
-                                        style: "text-align:right; font-size:9px; color:#7a5a2c; margin-top:2px; opacity:.75;",
+                                        style: "text-align:right; font-size:9px; color:#6a4a20; margin-top:2px; opacity:.9; font-style:normal;",
                                         "— {by}"
                                     }
                                 }
@@ -154,24 +169,26 @@ pub fn CardView(card: Card, on_click: EventHandler<Card>) -> Element {
                         }
                     }
 
-                    // Stat bar
+                    // Bottom info strip - collector info + P/T badge on the right
                     div {
-                        style: "display:flex; align-items:center; justify-content:space-between; padding:4px 8px; background:#050301; border-top:1px solid {hex}44; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.1em; font-weight:500; color:#8a6a42;",
-                        span { style: "display:inline-flex; align-items:center; gap:5px;",
-                            svg { width: "11", height: "7", view_box: "0 0 100 64", style: "flex-shrink:0; opacity:.75;",
-                                ellipse { cx: "50", cy: "36", rx: "32", ry: "18", fill: "{hex}", stroke: "#2a1606", stroke_width: "3" }
-                                rect { x: "4", y: "28", width: "14", height: "10", fill: "{hex}", stroke: "#2a1606", stroke_width: "3" }
-                                rect { x: "82", y: "28", width: "14", height: "10", fill: "{hex}", stroke: "#2a1606", stroke_width: "3" }
-                                circle { cx: "42", cy: "28", r: "3", fill: "#fff" }
-                                circle { cx: "58", cy: "28", r: "3", fill: "#fff" }
-                                circle { cx: "42", cy: "28", r: "1.2", fill: "#2a1606" }
-                                circle { cx: "58", cy: "28", r: "1.2", fill: "#2a1606" }
-                            }
-                            "rust-web.com · {no_str}/034 · {rar_label}"
+                        style: "display:flex; align-items:center; justify-content:space-between; padding:3px 9px 4px; margin:5px 8px 0; font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:0.08em; font-weight:600; color:#f4ead0; text-shadow:0 1px 0 rgba(0,0,0,.7); gap:6px;",
+                        span { style: "display:inline-flex; align-items:center; gap:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;",
+                            "{no_str}/034 · {rar_label} · rust-web"
                         }
-                        span {
-                            style: "background:linear-gradient(180deg, {hex}, {hex}99); color:#0a0603; font-weight:700; padding:2px 8px; border-radius:2px; font-size:11px; letter-spacing:0.02em; box-shadow:inset 0 -1px 1px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,220,180,.4), 0 0 10px {hex}55; font-family:'VT323',monospace;",
-                            "{card_inner.power}/{card_inner.toughness}"
+                        if has_pt {
+                            span {
+                                class: "tcg-pt-badge",
+                                style: "background:linear-gradient(160deg, {hex} 0%, {hex}cc 50%, {hex}88 100%); color:#0a0604; text-shadow:0 1px 0 rgba(255,255,255,.35); border:1px solid rgba(0,0,0,.6);",
+                                "{card_inner.power}/{card_inner.toughness}"
+                            }
+                        }
+                    }
+
+                    // Foil shimmer overlay for rare/mythic
+                    if holo {
+                        div {
+                            class: "tcg-foil",
+                            style: "background:linear-gradient(115deg, transparent {foil_a}%, rgba(255,255,255,.22) {foil_b}%, rgba(255,200,180,.14) {foil_c}%, rgba(180,200,255,.16) {foil_d}%, transparent {foil_d}%);",
                         }
                     }
                 }

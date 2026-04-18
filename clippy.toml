@@ -1,0 +1,6 @@
+# Clippy baseline for local consistency.
+# CI enforces warnings as errors with `-D warnings`.
+
+# Avoid false positives on this UI-focused project by allowing style lints that
+# can hurt readability in inline rsx! style blocks.
+too-many-lines-threshold = 250

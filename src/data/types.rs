@@ -111,43 +111,43 @@ impl Lane {
 
     pub fn hex(&self) -> &'static str {
         match self {
-            Self::Frontend => "#e8a04a",
-            Self::Backend => "#e8602b",
-            Self::Fullstack => "#f2c15a",
-            Self::Runtime => "#c47a28",
-            Self::Data => "#b85a20",
-            Self::Api => "#d89050",
-            Self::View => "#a65f22",
-            Self::Core => "#d4421a",
-            Self::Tools => "#f0bd5a",
+            Self::Frontend  => "#f5ecd0", // White (Plains) - parchment
+            Self::Backend   => "#c83830", // Red (Mountain) - crimson
+            Self::Fullstack => "#3a78c8", // Blue (Island) - sapphire
+            Self::Runtime   => "#4a9858", // Green (Forest) - moss
+            Self::Data      => "#7a4d96", // Black/Purple (Swamp) - amethyst
+            Self::Api       => "#3aa0a8", // Azorius teal
+            Self::View      => "#d87830", // Boros orange
+            Self::Core      => "#9098a4", // Colorless - pewter
+            Self::Tools     => "#d4af37", // Gold (multicolor)
         }
     }
 
     pub fn bg(&self) -> &'static str {
         match self {
-            Self::Frontend => "linear-gradient(180deg,#1e0f04,#2a1606)",
-            Self::Backend => "linear-gradient(180deg,#1f0a03,#2e1205)",
-            Self::Fullstack => "linear-gradient(180deg,#22150a,#2e1e10)",
-            Self::Runtime => "linear-gradient(180deg,#180a02,#241205)",
-            Self::Data => "linear-gradient(180deg,#180803,#241004)",
-            Self::Api => "linear-gradient(180deg,#1c1006,#2a1a0a)",
-            Self::View => "linear-gradient(180deg,#15090a,#1f0e04)",
-            Self::Core => "linear-gradient(180deg,#1a0804,#261004)",
-            Self::Tools => "linear-gradient(180deg,#1f1408,#2c1c0c)",
+            Self::Frontend  => "linear-gradient(180deg,#f0e6c8,#dccfa8)",
+            Self::Backend   => "linear-gradient(180deg,#2a0a08,#3a100c)",
+            Self::Fullstack => "linear-gradient(180deg,#0a1424,#101e38)",
+            Self::Runtime   => "linear-gradient(180deg,#0c1e10,#143018)",
+            Self::Data      => "linear-gradient(180deg,#180c20,#241432)",
+            Self::Api       => "linear-gradient(180deg,#0a201e,#102e2c)",
+            Self::View      => "linear-gradient(180deg,#241408,#341e0c)",
+            Self::Core      => "linear-gradient(180deg,#14141a,#1c1c24)",
+            Self::Tools     => "linear-gradient(180deg,#241c08,#34280c)",
         }
     }
 
     pub fn ink(&self) -> &'static str {
         match self {
-            Self::Frontend => "#f4d9a8",
-            Self::Backend => "#f4c9a0",
-            Self::Fullstack => "#f7e2b5",
-            Self::Runtime => "#e8c28a",
-            Self::Data => "#e8b088",
-            Self::Api => "#f0cd98",
-            Self::View => "#d9a170",
-            Self::Core => "#f0b494",
-            Self::Tools => "#f7dba5",
+            Self::Frontend  => "#2a2418",
+            Self::Backend   => "#f4b8a8",
+            Self::Fullstack => "#b8d0f0",
+            Self::Runtime   => "#b8e0c0",
+            Self::Data      => "#d8b8f0",
+            Self::Api       => "#b0e8d8",
+            Self::View      => "#f4d0a0",
+            Self::Core      => "#d0d4dc",
+            Self::Tools     => "#f0d890",
         }
     }
 }
@@ -225,4 +225,5 @@ pub struct Card {
     pub github_repo: Option<String>,
     #[serde(default)]
     pub is_logo_card: bool,
+    pub card_bg: Option<String>,
 }

@@ -88,7 +88,7 @@ pub fn CardArtSvg(seed: String, lane: Lane) -> Element {
 // ── Image Art ───────────────────────────────────────────────────────────────
 
 #[component]
-pub fn ImageArt(src: String, fallback: Option<String>, lane: Lane, is_repo_card: bool) -> Element {
+pub fn ImageArt(src: String, fallback: Option<String>, lane: Lane, is_repo_card: bool, card_bg: Option<String>) -> Element {
     let mut errored = use_signal(|| false);
     let hex = lane.hex();
 
@@ -102,7 +102,8 @@ pub fn ImageArt(src: String, fallback: Option<String>, lane: Lane, is_repo_card:
         src.clone()
     };
 
-    let is_cover = errored();
+    let has_custom_bg = card_bg.is_some();
+    let is_cover = errored() || (has_custom_bg && !is_repo_card);
 
     let img_style = if is_cover {
         "width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.05) contrast(1.02);"
@@ -110,7 +111,9 @@ pub fn ImageArt(src: String, fallback: Option<String>, lane: Lane, is_repo_card:
         "max-width:72%; max-height:72%; width:auto; height:auto; object-fit:contain; display:block; filter:drop-shadow(0 2px 8px rgba(0,0,0,.6));"
     };
 
-    let bg = if is_repo_card {
+    let bg = if let Some(ref bg_color) = card_bg {
+        format!("position:relative; width:100%; height:100%; background:{bg_color}; display:flex; align-items:center; justify-content:center; overflow:hidden;")
+    } else if is_repo_card {
         "position:relative; width:100%; height:100%; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden;".to_string()
     } else {
         format!("position:relative; width:100%; height:100%; background:radial-gradient(circle at 50% 50%, {hex}22, #0a0603 80%); display:flex; align-items:center; justify-content:center; overflow:hidden;")

@@ -10,8 +10,19 @@ pub fn Nav() -> Element {
                 "com"
             }
             div { class: "nav-links",
-                a { href: "#", class: "active", "[ Cards ]" }
-                a { href: "https://crates.io", target: "_blank", rel: "noreferrer", "[ Crates ↗ ]" }
+                a { href: "#", class: "active nav-text", "[ Cards ]" }
+                a { href: "https://crates.io", target: "_blank", rel: "noreferrer", class: "nav-text", "[ Crates \u{2197} ]" }
+                // Icon-only versions for small screens
+                a { href: "#", class: "active nav-icon", title: "Cards",
+                    svg { width: "16", height: "16", view_box: "0 0 16 16", fill: "currentColor",
+                        path { d: "M2 2a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V2zm2-1a1 1 0 00-1 1v12a1 1 0 001 1h8a1 1 0 001-1V2a1 1 0 00-1-1H4z" }
+                    }
+                }
+                a { href: "https://crates.io", target: "_blank", rel: "noreferrer", class: "nav-icon", title: "Crates",
+                    svg { width: "16", height: "16", view_box: "0 0 16 16", fill: "currentColor",
+                        path { d: "M8 1l6.5 3.5v7L8 15l-6.5-3.5v-7L8 1zm0 1.2L2.8 5.1v5.8L8 13.8l5.2-2.9V5.1L8 2.2zM8 4l3.5 1.9v3.8L8 11.6 4.5 9.7V5.9L8 4z" }
+                    }
+                }
                 a { href: "https://github.com/FrancescoXX/rust-web", target: "_blank", rel: "noreferrer", class: "github-link",
                     svg {
                         width: "22",

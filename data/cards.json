@@ -2,10 +2,10 @@
   {
     "no": 1,
     "name": "Leptos",
-    "lane": "Frontend",
+    "lane": "Fullstack",
     "rarity": "Mythic",
     "cost": ["Ui", "Ui", "Cpu"],
-    "card_type": "Framework — Frontend · Fullstack",
+    "card_type": "Framework — Fullstack",
     "power": "4",
     "toughness": "3",
     "abilities": [
@@ -17,15 +17,16 @@
     "stars": "17k",
     "image_url": "https://underscorefunk.com/wp-content/uploads/2023/01/Logo__Leptos__brand-scaled.jpg",
     "github_repo": "leptos-rs/leptos",
-    "is_logo_card": true
+    "is_logo_card": true,
+    "card_bg": "#253046"
   },
   {
     "no": 2,
     "name": "Dioxus",
-    "lane": "Frontend",
+    "lane": "Fullstack",
     "rarity": "Rare",
     "cost": ["Ui", "Ui"],
-    "card_type": "Framework — Frontend · Cross-Target",
+    "card_type": "Framework — Fullstack · Cross-Target",
     "power": "3",
     "toughness": "3",
     "abilities": [
@@ -74,7 +75,7 @@
     "flavor": "Less wood. More grain.",
     "flavor_by": null,
     "stars": null,
-    "image_url": "https://raw.githubusercontent.com/sycamore-rs/sycamore/master/assets/logo.png",
+    "image_url": "https://user-images.githubusercontent.com/37006668/210620713-562cda3d-9eaa-40c6-a22a-e5d9bd11b425.svg",
     "github_repo": "sycamore-rs/sycamore",
     "is_logo_card": false
   },
@@ -114,9 +115,10 @@
     "flavor": "Some services never sleep. This one never even blinks.",
     "flavor_by": null,
     "stars": null,
-    "image_url": "https://actix.rs/img/logo.png",
+    "image_url": "https://kelvinfan001.github.io/assets/img/actix/logo-large.png",
     "github_repo": "actix/actix-web",
-    "is_logo_card": false
+    "is_logo_card": true,
+    "card_bg": "#111"
   },
   {
     "no": 7,
